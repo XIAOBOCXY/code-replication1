@@ -5,4 +5,8 @@ checkpoints
 *.onnx
 tmp
 data
-expr-transfer-tiangong           
+expr-transfer-tiangong
+
+datasets01/           
+*.xlsx
+*.pth
