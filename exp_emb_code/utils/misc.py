@@ -7,7 +7,7 @@ from pathlib import Path
 
 import torch
 import torch.distributed as dist
-from torch._six import inf
+from torch import inf                                              #修改 原torch._six 2025.8.21
 from utils.metrics import triplet_prediction_accuracy
 import json
 import os

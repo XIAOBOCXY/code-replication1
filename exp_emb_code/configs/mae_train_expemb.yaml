@@ -6,7 +6,8 @@ train_csv: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/train
 train_img_path: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/train_image            #添加 新路径 2025.8.16
 val_csv: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/val.csv                       #添加 新路径 2025.8.16
 val_img_path: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/val_image                #添加 新路径 2025.8.16
-# pd.read_excel("input.xlsx").to_csv("output.csv", index=False)需要转为csv
+# 运行exp_emb_code\utils\convert_excel_to_csv.py    将.xlsx转为csv                                     #添加 注释 2025.8.21
+# 运行exp_emb_code\utils\FEC_dataset_downloader.py  将FEC数据集图片裁剪下载                             #添加 注释 2025.8.21
 
 use_dp: False
 device: [0]
@@ -21,8 +22,8 @@ num_workers: 8
 
 num_epochs: 100
 save_epoch: 1
-# mae_pretrain_checkpoints: /path/to/pretrained_mae                                                        #注释 原路径 2025.8.16
-mae_pretrain_checkpoints: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/pretrained_mae.pth              #添加 新路径 2025.8.16
+# mae_pretrain_checkpoints: /path/to/pretrained_mae                                                                             #注释 原路径 2025.8.16
+mae_pretrain_checkpoints: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/pretrained_mae/mae_pretrain_vit_base.pth         #添加 新路径 2025.8.21
 resume: null
 
 lr: 0.002
