@@ -2,10 +2,15 @@
 # train_img_path: /path/to/train_image                         #注释 原路径 2025.8.16
 # val_csv: /path/to/val.csv                                    #注释 原路径 2025.8.16
 # val_img_path: /path/to/val_image                             #注释 原路径 2025.8.16
-train_csv: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/train.csv                   #添加 新路径 2025.8.16
-train_img_path: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/train_image            #添加 新路径 2025.8.16
-val_csv: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/val.csv                       #添加 新路径 2025.8.16
-val_img_path: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/val_image                #添加 新路径 2025.8.16
+# train_csv: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/train.csv                   #添加 服务器新路径 2025.8.16
+# train_img_path: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/train                  #添加 服务器新路径 2025.8.16
+# val_csv: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/val.csv                       #添加 服务器新路径 2025.8.16
+# val_img_path: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/FEC Google/test                #添加 服务器新路径 2025.8.16
+
+train_csv: F:/code/code-replication1/free_avatar/datasets01/FEC Google/train.csv                   #添加 本地新路径 2025.8.23
+train_img_path: F:/code/code-replication1/free_avatar/datasets01/FEC Google/train                  #添加 本地新路径 2025.8.23
+val_csv: F:/code/code-replication1/free_avatar/datasets01/FEC Google/val.csv                       #添加 本地新路径 2025.8.23
+val_img_path: F:/code/code-replication1/free_avatar/datasets01/FEC Google/test               #添加 本地新路径 2025.8.23
 # 运行exp_emb_code\utils\convert_excel_to_csv.py    将.xlsx转为csv                                     #添加 注释 2025.8.21
 # 运行exp_emb_code\utils\FEC_dataset_downloader.py  将FEC数据集图片裁剪下载                             #添加 注释 2025.8.21
 
@@ -23,7 +28,8 @@ num_workers: 8
 num_epochs: 100
 save_epoch: 1
 # mae_pretrain_checkpoints: /path/to/pretrained_mae                                                                             #注释 原路径 2025.8.16
-mae_pretrain_checkpoints: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/pretrained_mae/mae_pretrain_vit_base.pth         #添加 新路径 2025.8.21
+# mae_pretrain_checkpoints: /root/autodl-tmp/FreeAvatar-1/free_avatar/datasets01/pretrained_mae/mae_pretrain_vit_base.pth         #添加 服务器新路径 2025.8.21
+mae_pretrain_checkpoints: F:/code/code-replication1/free_avatar/datasets01/pretrained_mae/mae_pretrain_vit_base.pth         #添加 本地新路径 2025.8.21
 resume: null
 
 lr: 0.002

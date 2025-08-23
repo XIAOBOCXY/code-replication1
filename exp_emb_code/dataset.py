@@ -37,29 +37,70 @@ class FecData(data.dataset.Dataset):
         # 将CSV数据转换为字典形式，键为列名，值为该列所有数据组成的列表
         self.data = self.pd_data.to_dict("list")
         # 从字典中提取锚点、正例、负例图像的相对路径和类型信息
-        anc, pos, neg, tys = self.data["anchor"], self.data["positive"], self.data["negative"], self.data["type"]
+        # anc, pos, neg, tys = self.data["anchor"], self.data["positive"], self.data["negative"], self.data["type"]                 # 注释 原字典提取路径 2025.8.23
+        anc, pos, neg, tys = self.data["ImageURL1"], self.data["ImageURL2"], self.data["ImageURL3"], self.data["Triplet_type"]      # 添加 新字典提取路径 2025.8.23
+        
         # 将图像相对路径与图像文件夹路径拼接，形成完整的图像路径
-        self.data_anc = [os.path.join(self.img_path, k) for k in anc]
-        self.data_pos = [os.path.join(self.img_path, k) for k in pos]
-        self.data_neg = [os.path.join(self.img_path, k) for k in neg]
-        # 存储类型信息
-        self.type = tys
+        # self.data_anc = [os.path.join(self.img_path, k) for k in anc]                           # 注释 原路径拼接 2025.8.23
+        # self.data_pos = [os.path.join(self.img_path, k) for k in pos]                           # 注释 原路径拼接 2025.8.23
+        # self.data_neg = [os.path.join(self.img_path, k) for k in neg]                           # 注释 原路径拼接 2025.8.23
 
+         # 存储有效样本的索引（对应CSV行的原始索引）                                                  # 添加 新路径拼接 2025.8.23-
+        self.valid_indices = [] 
+        if "train" in csv_file.lower():
+            anc_len_nowmax = 13692                            # 训练集最大13692行
+        elif "test" in csv_file.lower() or "val" in csv_file.lower():
+            anc_len_nowmax = 4423                             # 测试集/验证集最大4423行
+        for i in range(anc_len_nowmax):                                                                 
+            # 生成6位数字编号，从000001开始
+            number = str(i + 1).zfill(6)   
+            # Anchor: 编号_1.jpeg
+            # Positive: 编号_2.jpeg  
+            # Negative: 编号_3.jpeg
+            anc_filename = f"{number}_1.jpeg"
+            pos_filename = f"{number}_2.jpeg"
+            neg_filename = f"{number}_3.jpeg"
+            anc_path = os.path.join(self.img_path, anc_filename)
+            pos_path = os.path.join(self.img_path, pos_filename)
+            neg_path = os.path.join(self.img_path, neg_filename)    
+            # 如果需要统一显示，可以转换为正斜杠
+            anc_path = anc_path.replace('\\', '/')
+            pos_path = pos_path.replace('\\', '/')
+            neg_path = neg_path.replace('\\', '/')
+            # print(anc_path,"",pos_path," ",neg_path)          
+            self.data_anc.append(anc_path)
+            self.data_pos.append(pos_path)
+            self.data_neg.append(neg_path)                                                        
+            self.type.append(tys[i])                                                              # -添加 新路径拼接 2025.8.23
+            # 检查图片是否存在，记录有效索引                                                         # 添加 筛选完整的三元组 2025.8.23-
+            if all(os.path.exists(p) for p in [anc_path, pos_path, neg_path]):
+                self.valid_indices.append(i)
+            else:
+                print(f"跳过第 {i+1} 行: 图片不完整")                                               # -添加 筛选完整的三元组 2025.8.23
+
+        # 存储类型信息
+        # self.type = tys                                                                            # 注释 原类型信息存储 2025.8.23
+        print(f"有效样本数: {len(self.valid_indices)}")                                              # 添加 输出有效样本数 2025.8.23
 
     # 返回数据集的样本数量（当前固定为100，实际应返回全部数据量）
     def __len__(self):
-        return 100
+        # return 100                                                                              # 注释 原返回值 2025.8.23
         # return len(self.data_anc)  # 注释掉的正确写法，应返回实际数据量
+        return len(self.valid_indices)                                                            # 添加 只返回有效样本数量 2025.8.23
 
 
     # 根据索引获取一个三元组样本（锚点、正例、负例图像）
     def __getitem__(self, index):
-        # 获取当前索引对应的类型信息
-        type = self.type[index]
+        original_index = self.valid_indices[index]                                                # 添加 获取有效索引对应的CSV原始索引 2025.8.23
+
+        # 获取当前索引对应的类型信息         
+        # type = self.type[index]                                                                 # 注释 原信息获取 2025.8.23
+        type = self.type[original_index]                                                          # 添加 新信息获取 2025.8.23
+
         # 获取当前索引对应的锚点、正例、负例图像的完整路径
-        anc_list = self.data_anc[index]
-        pos_list = self.data_pos[index]
-        neg_list = self.data_neg[index]
+        anc_list = self.data_anc[original_index]                                                  # 修改 原index 2025.8.23
+        pos_list = self.data_pos[original_index]                                                  # 修改 原index 2025.8.23
+        neg_list = self.data_neg[original_index]                                                  # 修改 原index 2025.8.23
 
         # 打开图像文件并转换为RGB格式
         anc_img = Image.open(anc_list).convert('RGB')  # 锚点图像

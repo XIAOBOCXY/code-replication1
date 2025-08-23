@@ -19,13 +19,38 @@ import os
 
 # 读取YAML格式文件，并将其内容解析为Python字典返回
 def read_yaml_to_dict(yaml_path):
-    # 打开指定路径的YAML文件（使用with语句确保文件操作完成后自动关闭）
-    with open(yaml_path) as file:
-        # 读取文件内容，通过yaml.FullLoader安全解析YAML格式
-        # 将解析结果转换为Python字典（键值对结构）
-        dict_value = yaml.load(file.read(), Loader=yaml.FullLoader)
-        # 返回解析后的字典
+    # # 打开指定路径的YAML文件（使用with语句确保文件操作完成后自动关闭）                   # 注释 报错 2025.8.23-
+    # with open(yaml_path) as file:
+    #     # 读取文件内容，通过yaml.FullLoader安全解析YAML格式
+    #     # 将解析结果转换为Python字典（键值对结构）
+    #     dict_value = yaml.load(file, Loader=yaml.FullLoader)                        # 报错修改 原file.read()  2025.8.23                                
+    #     # 返回解析后的字典
+    #     return dict_value                                                           # -注释 报错 2025.8.23
+    
+    # 以二进制模式读取文件                                                              # 添加 读取配置文件报错的修改 2025.8.23-
+    with open(yaml_path, 'rb') as file:
+        content = file.read()
+    # 清理非法字符 (0x84)
+    cleaned_content = content.replace(b'\x84', b'') 
+    # 尝试多种编码
+    encodings = ['utf-8', 'utf-8-sig', 'latin-1', 'cp1252', 'gbk']
+    for encoding in encodings:
+        try:
+            decoded_content = cleaned_content.decode(encoding)
+            dict_value = yaml.safe_load(decoded_content)
+            print(f"✅ 使用 {encoding} 编码成功读取配置文件")
+            return dict_value
+        except (UnicodeDecodeError, yaml.YAMLError) as e:
+            print(f"尝试 {encoding} 编码失败: {e}")
+            continue
+    # 如果所有编码都失败，尝试忽略错误
+    try:
+        decoded_content = cleaned_content.decode('utf-8', errors='ignore')
+        dict_value = yaml.safe_load(decoded_content)
+        print("⚠️  使用UTF-8忽略错误模式读取配置文件")
         return dict_value
+    except Exception as e:
+        raise Exception(f"无法读取配置文件: {e}")                                             # -添加 读取配置文件报错的修改 2025.8.23-
 
 # 计算三元组损失（Triplet Loss）并返回特征间的距离
 def compute_loss(anc_fea, pos_fea, neg_fea, type):
@@ -281,13 +306,15 @@ if __name__ == '__main__':
     # 创建命令行参数解析器（用于解析用户输入的配置文件路径）
     parser = argparse.ArgumentParser()
     # 添加命令行参数：--config，指定YAML配置文件路径，默认值为"configs/mae_train_expemb.yaml"
-    parser.add_argument("--config", default="configs/mae_train_expemb.yaml")
+    # parser.add_argument("--config", default="configs/mae_train_expemb.yaml")                                                            # 注释 原路径 2025.8.23
+    # parser.add_argument("--config", default="/root/autodl-tmp/FreeAvatar-1/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")         # 注释 autodl新路径 2025.8.23
+    parser.add_argument("--config", default="F:/code/code-replication1/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")           #注释 本地新路径 2025.8.23
     # 解析命令行参数，得到包含参数值的对象args
     args = parser.parse_args()
     # 从解析结果中获取配置文件路径
     yml_path = args.config
     # 调用read_yaml_to_dict函数读取YAML文件，将内容解析为Python字典（配置参数）
     config = read_yaml_to_dict(yml_path)
-
+    
     # 调用主函数main，传入解析后的配置字典，启动训练流程
     main(config)

@@ -13,8 +13,8 @@ INPUT_PATH = r"F:/code/code-replication1/free_avatar/datasets01/FEC Google/"
 TRAIN_FILE = r"train.csv"
 TEST_FILE = r"val.csv"
 
-OUTPUT_PATH = r"F:/code/code-replication1/free_avatar/datasets01/FEC Google/train"
-# OUTPUT_PATH = r"F:/code/code-replication1/free_avatar/datasets01/FEC Google/test"  # 测试集路径
+# OUTPUT_PATH = r"F:/code/code-replication1/free_avatar/datasets01/FEC Google/train"
+OUTPUT_PATH = r"F:/code/code-replication1/free_avatar/datasets01/FEC Google/test"  # 测试集路径
 
 # 创建输出文件夹
 if os.path.exists(OUTPUT_PATH):
@@ -26,8 +26,8 @@ else:
 TOTAL_PATH = os.path.join(INPUT_PATH, TRAIN_FILE)  # 用os.path.join避免路径拼接错误
 # TOTAL_PATH = os.path.join(INPUT_PATH, TEST_FILE)  # 测试集文件路径
 
-csv_err = r'url_error_train.csv'
-# csv_err = r'url_error_test.csv'  # 测试集错误日志
+# csv_err = r'url_error_train.csv'
+csv_err = r'url_error_test.csv'  # 测试集错误日志
 
 # 初始化错误日志（若不存在）
 if not os.path.isfile(csv_err):
@@ -51,7 +51,7 @@ subcounts = ["1", "2", "3"]
 # 配置网络请求重试机制（解决网络波动问题）
 session = requests.Session()
 retry_strategy = Retry(
-    total=3,  # 最大重试次数
+    total=5,  # 最大重试次数
     backoff_factor=0.5,  # 重试间隔（0.5, 1, 2秒...）
     status_forcelist=[429, 500, 502, 503, 504]  # 需要重试的状态码
 )
