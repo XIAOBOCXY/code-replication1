@@ -23,12 +23,12 @@ device: [0]
 # log_dir: "/root/autodl-tmp/free_avatar/exp_emb_code/log/vit_base_16_exp_emb"                          #修改第一次训练 原./log/vit_base_16_exp_emb 2025.8.24
 # checkpoint_dir: "/root/autodl-tmp/free_avatar/exp_emb_code/checkpoints/vit_base_16_exp_emb"           #修改第一次训练 原./checkpoints/vit_base_16_exp_emb 2025.8.24
 
-log_dir: "/root/autodl-tmp/free_avatar/exp_emb_code/log/vit_base_16_exp_emb_2025.8.24"                          #修改第二次训练 原./log/vit_base_16_exp_emb 2025.8.24
-checkpoint_dir: "/root/autodl-tmp/free_avatar/exp_emb_code/checkpoints/vit_base_16_exp_emb_2025.8.24"           #修改第二次训练 原./checkpoints/vit_base_16_exp_emb 2025.8.24
+log_dir: "/root/autodl-tmp/free_avatar/exp_emb_code/log/vit_base_16_exp_emb_2_2025.8.24"                          #修改第二次训练 原./log/vit_base_16_exp_emb 2025.8.24
+checkpoint_dir: "/root/autodl-tmp/free_avatar/exp_emb_code/checkpoints/vit_base_16_exp_emb_2_2025.8.24"           #修改第二次训练 原./checkpoints/vit_base_16_exp_emb 2025.8.24
 
 print_freq: 20
-accum_iter: 20                                                     # 修改第二次训练 原100 2025.8.24
-batch_size: 64
+accum_iter: 8                                                     # 修改第二次训练 原100 2025.8.24
+batch_size: 16                                                    # 修改第二次训练 原64 2025.8.24
 num_workers: 8
 
 num_epochs: 100
@@ -38,10 +38,11 @@ mae_pretrain_checkpoints: /root/autodl-tmp/free_avatar/datasets01/pretrained_mae
 # mae_pretrain_checkpoints: F:/code/code-replication1/free_avatar/datasets01/pretrained_mae/mae_pretrain_vit_base.pth         #添加 本地新路径 2025.8.21
 resume: null
 
-lr: 0.00005                                                         # 修改第二次训练 原0.002 2025.8.24
+lr: 0.001                                                          # 修改第二次训练 原0.002 2025.8.24
 momentum: 0.9
 weight_decay: 0.01                                                  # 修改第二次训练 原0.00005 2025.8.24
 optim: "SGD"
 
-weight:
-save_fig: "/root/autodl-tmp/free_avatar/exp_emb_code"
+weight_path: "/root/autodl-tmp/free_avatar/exp_emb_code/checkpoints/vit_base_16_exp_emb/epoch_91_acc_0.4046997389033943.pth"       #添加 test_visualize的配置选择的权重 2025.8.24
+save_fig_path: "/root/autodl-tmp/free_avatar/exp_emb_code/save_fig"                                                                #添加 test_visualize的配置可视化的图片保存地址 2025.8.24
+# root/miniconda3/envs/my_FreeAvatar/bin/python /root/autodl-tmp/free_avatar/exp_emb_code/test_visualize.py --config /root/autodl-tmp/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml  #添加 运行命令 2025.8.24

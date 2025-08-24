@@ -66,9 +66,9 @@ def compute_loss(anc_fea, pos_fea, neg_fea, type):
     #   dists3: 正例与负例的L2距离（[batch_size,]）
     # 定义三个三元组损失函数，margin（边界值）分别为0.1、0.2、0.1
     # margin用于控制正负例距离的差异要求（希望正例距离 < 负例距离 - margin）
-    criterion1 = nn.TripletMarginLoss(margin=0.1)
-    criterion2 = nn.TripletMarginLoss(margin=0.2)
-    criterion3 = nn.TripletMarginLoss(margin=0.1)
+    criterion1 = nn.TripletMarginLoss(margin=0.02)                              # 修改训练准确率太低 原0.1 2025.8.24
+    criterion2 = nn.TripletMarginLoss(margin=0.03)                              # 修改训练准确率太低 原0.2 2025.8.24
+    criterion3 = nn.TripletMarginLoss(margin=0.04)                              # 修改训练准确率太低 原0.1 2025.8.24
     # 定义L2距离计算器（用于后续计算特征间的具体距离）
     l2_dist = PairwiseDistance(2)
     # 初始化损失值
@@ -101,7 +101,7 @@ def compute_loss(anc_fea, pos_fea, neg_fea, type):
     return loss, dists1, dists2, dists3
 
 # 主函数，协调整个模型训练与验证流程，包括数据加载、模型初始化、训练循环等
-def main(config):
+def main(config): 
     # 根据配置构建训练集和验证集
     trainset = build_dataset(config, "train")
     valset = build_dataset(config, "val")
