@@ -42,3 +42,6 @@ lr: 0.00005                                                         # 修改第�
 momentum: 0.9
 weight_decay: 0.01                                                  # 修改第二次训练 原0.00005 2025.8.24
 optim: "SGD"
+
+weight:
+save_fig: "/root/autodl-tmp/free_avatar/exp_emb_code"

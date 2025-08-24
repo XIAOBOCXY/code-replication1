@@ -199,7 +199,7 @@ def build_dataset(config, mode):
         # 使用训练集的CSV文件路径、图像文件夹路径和训练转换创建FecData实例
         dataset = FecData(config["train_csv"], config["train_img_path"], train_transform)
     # 如果模式为"val"，则构建验证数据集
-    elif mode == "val":p
+    elif mode == "val":
         # 使用验证集的CSV文件路径、图像文件夹路径和训练转换创建FecData实例
         # 注意：这里验证集使用了train_transform，可能是有意为之（如需对比），通常应使用val_transform
         dataset = FecData(config["val_csv"], config["val_img_path"], train_transform)

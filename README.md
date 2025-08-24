@@ -35,6 +35,8 @@
 
 添加exp_emb_code/log/vit_vase_16_exp_emb_test,测试tensorboard可正常打开，但训练由于数据集过少而accum_iter过大导致日志数量过少
 
+添加exp_emb_code\test_visualize.py测试可视化脚本，查看该权重的可视化效果
+
 第一次训练准确率30%-40%浮动，修改log和checkpoints路径,修改accum_iter、lr、weight_decay，进行第二次训练
 
 #### 计划：
