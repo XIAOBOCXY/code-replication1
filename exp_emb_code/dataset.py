@@ -102,10 +102,19 @@ class FecData(data.dataset.Dataset):
         pos_list = self.data_pos[original_index]                                                  # 修改 原index 2025.8.23
         neg_list = self.data_neg[original_index]                                                  # 修改 原index 2025.8.23
 
-        # 打开图像文件并转换为RGB格式
-        anc_img = Image.open(anc_list).convert('RGB')  # 锚点图像
-        pos_img = Image.open(pos_list).convert('RGB')  # 正例图像（与锚点相似）
-        neg_img = Image.open(neg_list).convert('RGB')  # 负例图像（与锚点不相似）
+        # # 打开图像文件并转换为RGB格式                                                            # 注释 图片损坏导致程序中断 2025.8.24-
+        # anc_img = Image.open(anc_list).convert('RGB')  # 锚点图像
+        # pos_img = Image.open(pos_list).convert('RGB')  # 正例图像（与锚点相似）
+        # neg_img = Image.open(neg_list).convert('RGB')  # 负例图像（与锚点不相似）                # 注释 图片损坏导致程序中断 2025.8.24-
+
+        try:                                                                                      # 添加 图片损坏则跳过 2025.8.24-
+            anc_img = Image.open(anc_list).convert('RGB')
+            pos_img = Image.open(pos_list).convert('RGB')
+            neg_img = Image.open(neg_list).convert('RGB')
+        except:
+            # 如果图像损坏，直接跳过这个样本，返回下一个
+            print(f"跳过损坏样本: {anc_list}")
+            return self.__getitem__((index + 1) % len(self))                                       # -添加 图片损坏则跳过 2025.8.24-
 
         # 如果有转换操作，则应用到图像上（如数据增强、归一化等）
         if self.transform is not None:
@@ -190,7 +199,7 @@ def build_dataset(config, mode):
         # 使用训练集的CSV文件路径、图像文件夹路径和训练转换创建FecData实例
         dataset = FecData(config["train_csv"], config["train_img_path"], train_transform)
     # 如果模式为"val"，则构建验证数据集
-    elif mode == "val":
+    elif mode == "val":p
         # 使用验证集的CSV文件路径、图像文件夹路径和训练转换创建FecData实例
         # 注意：这里验证集使用了train_transform，可能是有意为之（如需对比），通常应使用val_transform
         dataset = FecData(config["val_csv"], config["val_img_path"], train_transform)

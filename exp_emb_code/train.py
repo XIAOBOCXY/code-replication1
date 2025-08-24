@@ -307,8 +307,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # 添加命令行参数：--config，指定YAML配置文件路径，默认值为"configs/mae_train_expemb.yaml"
     # parser.add_argument("--config", default="configs/mae_train_expemb.yaml")                                                            # 注释 原路径 2025.8.23
-    # parser.add_argument("--config", default="/root/autodl-tmp/FreeAvatar-1/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")         # 注释 autodl新路径 2025.8.23
-    parser.add_argument("--config", default="F:/code/code-replication1/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")           #注释 本地新路径 2025.8.23
+    parser.add_argument("--config", default="/root/autodl-tmp/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")         # 注释 autodl新路径 2025.8.23
+    # parser.add_argument("--config", default="F:/code/code-replication1/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")           #注释 本地新路径 2025.8.23
     # 解析命令行参数，得到包含参数值的对象args
     args = parser.parse_args()
     # 从解析结果中获取配置文件路径
