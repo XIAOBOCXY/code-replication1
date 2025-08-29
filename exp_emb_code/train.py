@@ -105,6 +105,11 @@ def main(config):
     # 根据配置构建训练集和验证集
     trainset = build_dataset(config, "train")
     valset = build_dataset(config, "val")
+
+    # 只使用验证集的前5000组数据                                                        # 添加 使用部分验证集数据 2025.8.29-
+    if len(valset) > 5000:
+        valset = torch.utils.data.Subset(valset, range(5000))                           # -添加 使用部分验证集数据 2025.8.29
+
     # 创建训练集和验证集的数据加载器（DataLoader）
     # 配置包括批次大小、工作进程数，训练集开启数据打乱（shuffle=True）
     trainloader = DataLoader(trainset, batch_size=config["batch_size"],num_workers=config["num_workers"],shuffle=True)
@@ -307,8 +312,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # 添加命令行参数：--config，指定YAML配置文件路径，默认值为"configs/mae_train_expemb.yaml"
     # parser.add_argument("--config", default="configs/mae_train_expemb.yaml")                                                            # 注释 原路径 2025.8.23
-    parser.add_argument("--config", default="/root/autodl-tmp/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")         # 注释 autodl新路径 2025.8.23
-    # parser.add_argument("--config", default="F:/code/code-replication1/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")           #注释 本地新路径 2025.8.23
+    # parser.add_argument("--config", default="/root/autodl-tmp/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")         # 注释 autodl新路径 2025.8.23
+    parser.add_argument("--config", default="F:/code/code-replication1/free_avatar/exp_emb_code/configs/mae_train_expemb.yaml")           #注释 本地新路径 2025.8.23
     # 解析命令行参数，得到包含参数值的对象args
     args = parser.parse_args()
     # 从解析结果中获取配置文件路径

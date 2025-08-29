@@ -11,7 +11,7 @@ import time
 
 
 # 配置参数
-START_ROW = 26597  # 断点续传起始行（从0开始，已跳过表头）
+START_ROW = 31419  # 断点续传起始行（从0开始，已跳过表头）
 INPUT_PATH = r"F:/code/code-replication1/free_avatar/datasets01/FEC Google/"
 TRAIN_FILE = r"train.csv"
 TEST_FILE = r"val.csv"

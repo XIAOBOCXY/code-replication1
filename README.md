@@ -42,7 +42,7 @@
 第一次训练准确率30%-40%浮动，修改log和checkpoints路径,修改accum_iter、lr、weight_decay，修改exp_emb_code/train.py中69-71行margin，进行第二次训练，准确率仍然很低，计划删除输出
 
 #### 8.25
-重新下载失败的图片（训练集）   （下载中...）
+重新下载失败的图片（训练集）
 
 阅读train_rig2img.py，记录运行过程的步骤，见https://ih60zp57kt.feishu.cn/wiki/AlDowDQRqiBXVukQrJzcg3Y1n5d#share-CdnyduGlsosdPBx7ffPcRn8fnpf
 
@@ -54,6 +54,8 @@
 验证集下载到23907
 
 #### 8.29
+训练集下载到33507
+创建dataset\data\Workspace\Rig2Face\data\VOCASET，并下载VOCASET训练数据https://voca.is.tue.mpg.de/download.php
 
 
 #### 计划：
